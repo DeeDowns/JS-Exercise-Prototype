@@ -95,15 +95,19 @@ Car.prototype.fill = function(gallons){
   return this.tank +=gallons;
 }
 
-// Car.prototype.drive = function(distance){
-//     this.odometer += distance;
-//   if(distance >= 0){
-//     return this.tank -= distance;
-//   } else if(this.tank === 0){
-//     return `I ran out of fuel at ${this.odometer} miles!`
-//   }
+
+Car.prototype.drive = function(distance){
+  this.odometer += distance;
+  this.tank -= distance / this.milesPerGallon;
+  // const fuel = this.milesPerGallon * this.tank;
+  // if(fuel === 0){
+  //   this.odometer += distance;
+  // }
+  //  if(this.tank === 0){
+  //    return `I ran out of fuel at ${this.odometer} miles!`
+  //  }
   
-// }
+}
 
 const myCar = new Car('fusion', 31)
 console.log(myCar)
@@ -118,18 +122,39 @@ console.log(myCar.tank)
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age)
+  this.favoriteToy = favoriteToy;
 }
+Baby.prototype = Object.create(Person.prototype)
+
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`
+}
+
+const daBaby = new Baby('Jonathan', '29 months', 'money')
+console.log(Baby)
+console.log(daBaby.stomach);
+daBaby.eat('ice cream');
+console.log(daBaby.stomach);
+daBaby.poop();
+console.log(daBaby.stomach);
+console.log(daBaby.play())
+
+
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window/Global Object Binding:
+    'this' by default refers to the window if it has no context
+  2. Implicit Binding: 
+    'this' refers to what is left of the dot, when the function is invoked/called, but it only applies to objects with methods
+  3. Explicit Binding:
+      You directtly tell JavaScript what 'this' refers to by using .call, .apply. and .bind
+  4. New Binding:
+      When a constructor function is invoked using the new keyword, 'this' refers to the new object that is created by the constructor function
 */
 
 
